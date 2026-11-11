@@ -14,7 +14,6 @@ import WeddingDetails from "./components/WeddingDetails";
 import Location from "./components/Location";
 import Gallery from "./components/Gallery";
 import RSVP from "./components/RSVP";
-import WeddingGift from "./components/WeddingGift";
 import Footer from "./components/Footer";
 import "./App.css";
 import { Analytics } from "@vercel/analytics/react";
@@ -43,7 +42,6 @@ function App() {
             <Location />
             <Gallery />
             <RSVP />
-            <WeddingGift />
             <Footer />
           </main>
           <Analytics />
