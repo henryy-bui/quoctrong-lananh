@@ -1,24 +1,39 @@
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import "./OurStory.css";
 
-const MILESTONES = [
+const MILESTONES: { year: string; emoji: string; title: string; desc: string[] }[] = [
   {
-    year: "2020",
+    year: "2022",
     emoji: "💫",
     title: "Lần đầu gặp gỡ",
-    desc: "Gặp nhau tại buổi họp Đội IT Supporter với ấn tượng đầu tiên là... chẳng ưa gì nhau. Nhưng định mệnh đã xoay chuyển vào buổi tối sinh nhật Đội, nơi những lời chào đầu tiên mở ra một hành trình tình yêu không ngờ tới",
+    desc: [
+      "“Chê Trọng” – đó có lẽ là ấn tượng đầu tiên mà chúng mình dành cho nhau.",
+      "Cuộc gặp gỡ tưởng chừng chỉ thoáng qua, bởi khi ấy, mỗi người đều đã có những lựa chọn và con đường riêng. Chúng mình cứ ngỡ rằng sẽ chẳng có câu chuyện nào tiếp nối sau lần gặp gỡ ấy.",
+      "Nhưng có lẽ, duyên phận luôn có cách riêng để đưa hai người đến bên nhau…",
+    ],
   },
   {
-    year: "2020",
-    emoji: "🌊",
-    title: "Mở lòng",
-    desc: "Từ hai kẻ 'ghét nhau' trong Đội, chỉ sau vài cuộc trò chuyện đêm sinh nhật, tụi mình đã tìm thấy 'tần số' chung và chọn đồng hành cùng nhau. Đó là một hành trình dài từ những ngày cùng nhau chạy deadline bài tập, cùng trải qua cảm giác hồi hộp ngày tốt nghiệp cho đến lúc mỗi đứa một định hướng riêng. Dù bận rộn với công việc nhưng tụi mình vẫn luôn là điểm tựa, cùng nhau trưởng thành và sẻ chia mọi áp lực đầu đời.",
+    year: "2023",
+    emoji: "💌",
+    title: "Năm trái hồng xiêm, trăm câu chuyện khởi đầu bất ngờ",
+    desc: [
+      "Mọi chuyện bắt đầu từ một lần bất ngờ với “trái hồng xiêm”, quà quê nhà Lan Anh, chị đồng nghiệp mang về cho Trọng.",
+      "Từ một món quà nhỏ, một lời cảm ơn qua tin nhắn – cũng là lần đầu tiên Trọng chủ động liên lạc, người đàn ông có vẻ hơi \"ngại ngùng\". Chẳng ai ngờ rằng, từ một câu chuyện giản đơn ấy, những dòng tin nhắn cứ dài thêm, những câu chuyện cứ nối tiếp và hai trái tim dần tìm thấy sự đồng điệu.",
+      "Từ những người từng xa lạ, chúng mình bắt đầu bước vào thế giới của nhau, để rồi tình yêu cứ thế lớn lên lúc nào chẳng hay.",
+    ],
   },
   {
     year: "2026",
     emoji: "🎊",
-    title: "Lời hứa trọn đời",
-    desc: "6 năm bên nhau, từ những sinh viên ngây ngô đến khi trưởng thành với công việc riêng, chúng mình đã cùng nhau đi qua thật nhiều cột mốc. Và hôm nay, sau hơn 2000 ngày gắn bó, tụi mình hạnh phúc khi quyết định cùng nhau xây dựng một gia đình nhỏ, viết tiếp chương mới của cuộc đời bằng một đám cưới hạnh phúc vào 17/11/2026",
+    title: "Viết tiếp câu chuyện mang tên Gia đình",
+    desc: [
+      "Ba năm bên nhau, từ hai người từng chẳng biết gì về nhau, chúng mình đã cùng đi qua những ngày vui buồn, cùng sẻ chia những ước mơ, hoài bão và cả những điều bình dị nhất trong cuộc sống.",
+      "Mỗi người đều có một hành trình riêng, nhưng giờ đây, chúng mình chọn cùng nhau viết nên một hành trình chung.",
+      "Không chỉ là người yêu, mà sẽ trở thành người bạn đồng hành, người thân thương nhất, cùng nắm tay nhau xây dựng một mái ấm nhỏ, nơi có yêu thương, sẻ chia và những giấc mơ chung.",
+      "Và ngày 17/11/2026, chúng mình sẽ chính thức mở ra chương mới của cuộc đời – chương mang tên Hôn nhân.",
+      "Từ hai con đường riêng, nay chung một hướng đi. Từ hai trái tim, nay chung một mái nhà.",
+      "Cảm ơn vì đã gặp nhau, vì đã chọn nhau và vì sẽ cùng nhau đi hết hành trình phía trước. ❤️",
+    ],
   },
 ];
 
@@ -51,7 +66,11 @@ export default function OurStory() {
                 <span className="tl-emoji">{m.emoji}</span>
                 <span className="tl-year">{m.year}</span>
                 <h3 className="tl-title">{m.title}</h3>
-                <p className="tl-desc">{m.desc}</p>
+                {m.desc.map((para, j) => (
+                  <p key={j} className="tl-desc">
+                    {para}
+                  </p>
+                ))}
               </div>
               <div className="timeline-dot" />
             </div>
