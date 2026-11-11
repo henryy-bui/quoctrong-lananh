@@ -99,6 +99,9 @@
   -webkit-text-fill-color: transparent;
   opacity: 0;
   white-space: nowrap;
+  /* Give script swashes/accents room inside the clipped background. */
+  padding: 0.2em 0.3em;
+  margin: -0.2em -0.3em;
 }
 
 .loading-name-left {

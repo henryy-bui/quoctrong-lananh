@@ -15,7 +15,7 @@ export interface EventData {
   day: number;
   /** Short weekday label rendered next to the time (e.g., "T7", "CN"). */
   weekday: string;
-  /** Vietnamese long form for the calendar caption (e.g., "Thứ Bảy, 30.05.2026"). */
+  /** Vietnamese long form for the calendar caption (e.g., "Thứ Hai, 16.11.2026"). */
   dateLabel: string;
   /** Start time as displayed (e.g., "16:00 chiều"). */
   time: string;
@@ -36,16 +36,16 @@ export const SIDE_CONFIG: Record<Side, SideData> = {
     events: [
       {
         name: "Lễ Thành Hôn",
-        day: 31,
-        weekday: "CN",
-        dateLabel: "Chủ Nhật, 31.05.2026",
+        day: 17,
+        weekday: "T3",
+        dateLabel: "Thứ Ba, 17.11.2026",
         time: "11:00 sáng",
       },
       {
         name: "Tiệc Mừng",
-        day: 31,
-        weekday: "CN",
-        dateLabel: "Chủ Nhật, 31.05.2026",
+        day: 17,
+        weekday: "T3",
+        dateLabel: "Thứ Ba, 17.11.2026",
         time: "11:30 sáng",
       },
     ],
@@ -56,50 +56,43 @@ export const SIDE_CONFIG: Record<Side, SideData> = {
       coords: "21.2409791,106.5760376",
       details: [],
     },
-    groomBrideNames: ["Văn Hà", "Thanh Hiền"],
+    groomBrideNames: ["Quốc Trọng", "Lan Anh"],
   },
   bride: {
     invitationFrom: "LỄ VU QUY",
     events: [
       {
-        name: "Tiệc Cưới",
-        day: 30,
-        weekday: "T7",
-        dateLabel: "Thứ Bảy, 30.05.2026",
-        time: "16:00 chiều",
-      },
-      {
         name: "Lễ Vu Quy",
-        day: 31,
-        weekday: "CN",
-        dateLabel: "Chủ Nhật, 31.05.2026",
-        time: "7:00 sáng",
+        day: 17,
+        weekday: "T3",
+        dateLabel: "Thứ Ba, 17.11.2026",
+        time: "10:00 sáng",
       },
     ],
     venue: {
       name: "Tư gia Nhà Gái",
-      address: "TDP Thị An, Tiền Phong, xã Long Hưng, tỉnh Hưng Yên",
-      oldAddress: "Thị trấn Hưng Nhân, Thái Bình cũ",
-      coords: "20.61588, 106.1453",
+      address: "TL293, Gần trường Mầm Non",
+      oldAddress: "Thôn Ao Vè, Trường Sơn, Bắc Ninh",
+      coords: "21.2829276,106.5550390",
       details: [],
     },
-    groomBrideNames: ["Thanh Hiền", "Văn Hà"],
+    groomBrideNames: ["Lan Anh", "Quốc Trọng"],
   },
   combined: {
     invitationFrom: "Trân trọng kính mời bạn đến tham dự lễ cưới của chúng tôi",
     events: [
       {
         name: "Lễ Thành Hôn",
-        day: 31,
-        weekday: "CN",
-        dateLabel: "Chủ Nhật, 31.05.2026",
+        day: 17,
+        weekday: "T3",
+        dateLabel: "Thứ Ba, 17.11.2026",
         time: "10:00 sáng",
       },
       {
         name: "Tiệc Mừng",
-        day: 31,
-        weekday: "CN",
-        dateLabel: "Chủ Nhật, 31.05.2026",
+        day: 17,
+        weekday: "T3",
+        dateLabel: "Thứ Ba, 17.11.2026",
         time: "11:30 sáng",
       },
     ],
@@ -109,6 +102,6 @@ export const SIDE_CONFIG: Record<Side, SideData> = {
       coords: "21.2409791,106.5760376",
       details: [],
     },
-    groomBrideNames: ["Văn Hà", "Thanh Hiền"],
+    groomBrideNames: ["Quốc Trọng", "Lan Anh"],
   },
 };

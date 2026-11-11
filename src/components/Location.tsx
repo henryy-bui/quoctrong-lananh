@@ -59,7 +59,7 @@ export default function Location() {
             <p className="location-address">{VENUE.address}</p>
             {VENUE.oldAddress && (
               <p className="location-address location-address--old">
-                ({VENUE.oldAddress})
+                {VENUE.oldAddress}
               </p>
             )}
             {VENUE.details

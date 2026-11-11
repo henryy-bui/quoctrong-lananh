@@ -18,7 +18,7 @@ const MILESTONES = [
     year: "2026",
     emoji: "🎊",
     title: "Lời hứa trọn đời",
-    desc: "6 năm bên nhau, từ những sinh viên ngây ngô đến khi trưởng thành với công việc riêng, chúng mình đã cùng nhau đi qua thật nhiều cột mốc. Và hôm nay, sau hơn 2000 ngày gắn bó, tụi mình hạnh phúc khi quyết định cùng nhau xây dựng một gia đình nhỏ, viết tiếp chương mới của cuộc đời bằng một đám cưới hạnh phúc vào 31/05/2026",
+    desc: "6 năm bên nhau, từ những sinh viên ngây ngô đến khi trưởng thành với công việc riêng, chúng mình đã cùng nhau đi qua thật nhiều cột mốc. Và hôm nay, sau hơn 2000 ngày gắn bó, tụi mình hạnh phúc khi quyết định cùng nhau xây dựng một gia đình nhỏ, viết tiếp chương mới của cuộc đời bằng một đám cưới hạnh phúc vào 17/11/2026",
   },
 ];
 

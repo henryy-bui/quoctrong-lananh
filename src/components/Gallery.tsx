@@ -1,43 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import Lightbox, { type LightboxPhoto } from "./Lightbox";
+import { GALLERY_IMAGES } from "../data/gallery.generated";
 import "./Gallery.css";
 
-// `bg` is a URL path; both Gallery and Lightbox wrap it in url(...) at
-// render time. Optimized assets are produced by `yarn optimize:images`
-// (see scripts/optimize-images.mjs) — names are lowercased + sanitized.
-const PHOTOS: LightboxPhoto[] = [
-  {
-    bg: "/images/optimized/akkha02140.jpg",
-    label: "Khoảnh khắc 1",
-    aspectRatio: "2 / 3",
-  },
-  {
-    bg: "/images/optimized/akkha02382.jpg",
-    label: "Khoảnh khắc 2",
-    aspectRatio: "2 / 3",
-  },
-  {
-    bg: "/images/optimized/akkha02465.jpg",
-    label: "Khoảnh khắc 3",
-    aspectRatio: "2 / 3",
-  },
-  {
-    bg: "/images/optimized/akkha02048.jpg",
-    label: "Khoảnh khắc 4",
-    aspectRatio: "2 / 3",
-  },
-  {
-    bg: "/images/optimized/akkha02460.jpg",
-    label: "Khoảnh khắc 5",
-    aspectRatio: "2 / 3",
-  },
-  {
-    bg: "/images/optimized/akkha02516.jpg",
-    label: "Khoảnh khắc 6",
-    aspectRatio: "2 / 3",
-  },
-];
+// Photos are discovered automatically: drop files into
+// public/images/optimized/ and `scripts/optimize-images.mjs` (run before
+// `yarn dev` / `yarn build`) resizes them, makes thumbnails and regenerates
+// this manifest with each photo's real dimensions.
+const PHOTOS: LightboxPhoto[] = GALLERY_IMAGES.map((img, i) => ({
+  bg: img.src,
+  thumb: img.thumb,
+  label: `Khoảnh khắc ${i + 1}`,
+  aspectRatio: `${img.width} / ${img.height}`,
+}));
+
+/** Fade the photo in once its bytes have arrived (also covers cached images). */
+function markLoaded(img: HTMLImageElement | null) {
+  if (img?.complete && img.naturalWidth > 0) img.classList.add("is-loaded");
+}
 
 // Matches the `@media (max-width: 640px)` breakpoint in Gallery.css —
 // keep the two in sync so the JS carousel and the CSS slide layout
@@ -138,16 +119,23 @@ export default function Gallery() {
               type="button"
               className={`gallery-item reveal reveal-delay-${
                 (i % 3) + 1
-              } reveal-blur${
+              } reveal-zoom${
                 isMobile && activeIndex === i ? " is-active" : ""
               }`}
-              style={{
-                backgroundImage: `url("${p.bg}")`,
-                aspectRatio: p.aspectRatio,
-              }}
+              style={{ aspectRatio: p.aspectRatio }}
               aria-label={`Mở ảnh: ${p.label}`}
               onClick={() => setOpenIndex(i)}
             >
+              <img
+                ref={markLoaded}
+                className="gallery-img"
+                src={p.thumb ?? p.bg}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+              />
               <div className="gallery-overlay">
                 <span className="gallery-heart">♥</span>
               </div>

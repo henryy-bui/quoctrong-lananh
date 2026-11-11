@@ -193,6 +193,11 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* Script glyphs (Q swash, g descender, stacked Vietnamese accents) overflow
+     the content box; background-clip:text only paints inside the padding box,
+     so pad it out and cancel with negative margin to keep the layout. */
+  padding: 0.2em 0.3em;
+  margin: -0.2em -0.3em;
   /* Force GPU compositor layer so the gradient + text-clip aren't
      rasterized on the CPU each frame. Combined with translate3d in
      the keyframes this keeps the element on its own layer for the

@@ -1,116 +1,149 @@
 #!/usr/bin/env node
 /*
- * Optimize photos in public/images/ → public/images/optimized/
+ * Gallery image pipeline. Drop photos into public/images/optimized/ and run
+ * `yarn optimize:images` (it also runs automatically before `yarn dev` and
+ * `yarn build`).
  *
- * - Resizes the long edge to MAX_EDGE px (no enlargement)
- * - Re-encodes JPEG at QUALITY using mozjpeg
- * - Honors EXIF orientation (rotate()) so portraits stay portrait
- * - Sanitizes the output filename (web-friendly: no spaces, lowercase)
- * - Skips files where the optimized version is already newer than the source
+ * For every image in public/images/optimized/:
+ *   1. If it is not web-ready (long edge > MAX_EDGE, non-.jpg, or a name that
+ *      isn't lowercase/web-safe), the original is MOVED to photos/originals/
+ *      (git-ignored, never shipped) and replaced by a resized mozjpeg copy.
+ *   2. A small grid thumbnail is written to public/images/optimized/thumbs/.
+ *   3. src/data/gallery.generated.ts is regenerated with every photo's
+ *      src, thumb and real width/height, sorted by filename.
  *
- * Usage:  yarn optimize:images
+ * Re-running is cheap: up-to-date files are skipped and the manifest is only
+ * rewritten when its content changes.
  */
 
-import { readdir, mkdir, stat } from "node:fs/promises";
+import { readdir, mkdir, stat, rename, readFile, writeFile, unlink } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const SRC_DIR = fileURLToPath(new URL("../public/images/", import.meta.url));
-const OUT_DIR = fileURLToPath(
-  new URL("../public/images/optimized/", import.meta.url)
-);
-const MAX_EDGE = 1800;
-const QUALITY = 80;
-const EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+const root = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
 
-/** Web-safe filename: no spaces, lowercase, only alnum / dash / dot. */
-function sanitize(name) {
-  const ext = extname(name).toLowerCase();
-  const stem = name.slice(0, -ext.length);
+const GALLERY_DIR = root("public/images/optimized/");
+const THUMB_DIR = root("public/images/optimized/thumbs/");
+const ORIGINALS_DIR = root("photos/originals/");
+const MANIFEST = root("src/data/gallery.generated.ts");
+const PUBLIC_BASE = "/images/optimized";
+
+const MAX_EDGE = 1800;
+const THUMB_WIDTH = 720;
+const QUALITY = 80;
+const THUMB_QUALITY = 74;
+const EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".heic", ".tif", ".tiff"]);
+
+const fmtMB = (b) => (b / 1024 / 1024).toFixed(2);
+
+/** Web-safe .jpg filename: lowercase, no spaces, only alnum / dash / underscore / dot. */
+function webName(name) {
+  const ext = extname(name);
+  const stem = name.slice(0, -ext.length || undefined);
   return (
     stem
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9._-]/g, "") + ext
+      .replace(/[^a-z0-9._-]/g, "") + ".jpg"
   );
 }
 
-await mkdir(OUT_DIR, { recursive: true });
+/** Width/height after EXIF orientation is applied. */
+async function orientedSize(file) {
+  const m = await sharp(file).metadata();
+  const swap = (m.orientation ?? 1) >= 5;
+  return swap ? { width: m.height, height: m.width } : { width: m.width, height: m.height };
+}
 
-const entries = await readdir(SRC_DIR, { withFileTypes: true });
+await mkdir(THUMB_DIR, { recursive: true });
+
+const entries = await readdir(GALLERY_DIR, { withFileTypes: true });
 const files = entries
   .filter(
-    (e) =>
-      e.isFile() &&
-      EXTENSIONS.has(extname(e.name).toLowerCase()) &&
-      !e.name.startsWith(".")
+    (e) => e.isFile() && !e.name.startsWith(".") && EXTENSIONS.has(extname(e.name).toLowerCase())
   )
   .map((e) => e.name)
   .sort();
 
-if (files.length === 0) {
-  console.log(`No source images found in ${SRC_DIR}`);
-  process.exit(0);
-}
-
-console.log(
-  `Optimizing ${files.length} image(s) → ${OUT_DIR}\n` +
-    `(max ${MAX_EDGE}px on long edge, JPEG q${QUALITY} mozjpeg)\n`
-);
-
-let totalIn = 0;
-let totalOut = 0;
-let skipped = 0;
-
-const fmtMB = (b) => (b / 1024 / 1024).toFixed(2);
-
+// ─── 1. Optimize anything that isn't web-ready ─────────────────────────
 for (const name of files) {
-  const inFs = join(SRC_DIR, name);
-  const outName = sanitize(name);
-  const outFs = join(OUT_DIR, outName);
+  const file = join(GALLERY_DIR, name);
+  const { width, height } = await orientedSize(file);
+  const target = webName(name);
+  const needsWork =
+    Math.max(width, height) > MAX_EDGE || target !== name;
+  if (!needsWork) continue;
 
-  const inStat = await stat(inFs);
-  let outStat = null;
-  try {
-    outStat = await stat(outFs);
-  } catch {
-    /* missing — will write */
+  await mkdir(ORIGINALS_DIR, { recursive: true });
+  let original = join(ORIGINALS_DIR, name);
+  if (existsSync(original)) {
+    const ext = extname(name);
+    original = join(ORIGINALS_DIR, `${name.slice(0, -ext.length)}-${Date.now()}${ext}`);
   }
+  const before = (await stat(file)).size;
+  await rename(file, original);
 
-  if (outStat && outStat.mtimeMs >= inStat.mtimeMs) {
-    skipped++;
-    totalIn += inStat.size;
-    totalOut += outStat.size;
-    console.log(`  ${name} → ${outName} — up to date, skipped`);
-    continue;
-  }
-
-  await sharp(inFs)
-    .rotate() // apply EXIF orientation, then strip it
-    .resize({
-      width: MAX_EDGE,
-      height: MAX_EDGE,
-      fit: "inside",
-      withoutEnlargement: true,
-    })
+  await sharp(original)
+    .rotate()
+    .resize({ width: MAX_EDGE, height: MAX_EDGE, fit: "inside", withoutEnlargement: true })
     .jpeg({ quality: QUALITY, mozjpeg: true })
-    .toFile(outFs);
+    .toFile(join(GALLERY_DIR, target));
 
-  const afterSize = (await stat(outFs)).size;
-  totalIn += inStat.size;
-  totalOut += afterSize;
-
-  const ratio = ((1 - afterSize / inStat.size) * 100).toFixed(1);
+  const after = (await stat(join(GALLERY_DIR, target))).size;
   console.log(
-    `  ${name} → ${outName}: ${fmtMB(inStat.size)} MB → ${fmtMB(
-      afterSize
-    )} MB (-${ratio}%)`
+    `  optimized ${name} → ${target}: ${fmtMB(before)} MB → ${fmtMB(after)} MB (original kept in photos/originals/)`
   );
 }
 
-const totalRatio = ((1 - totalOut / totalIn) * 100).toFixed(1);
-console.log(
-  `\nDone. ${fmtMB(totalIn)} MB → ${fmtMB(totalOut)} MB ` +
-    `(-${totalRatio}%, ${skipped} skipped)`
-);
+// ─── 2. Thumbnails + manifest ──────────────────────────────────────────
+const finals = (await readdir(GALLERY_DIR, { withFileTypes: true }))
+  .filter((e) => e.isFile() && extname(e.name) === ".jpg")
+  .map((e) => e.name)
+  .sort();
+
+// Drop thumbnails whose full-size photo has been removed.
+for (const name of await readdir(THUMB_DIR)) {
+  if (!finals.includes(name)) {
+    await unlink(join(THUMB_DIR, name));
+    console.log(`  removed orphaned thumbnail ${name}`);
+  }
+}
+
+const photos = [];
+for (const name of finals) {
+  const file = join(GALLERY_DIR, name);
+  const thumb = join(THUMB_DIR, name);
+  const srcStat = await stat(file);
+  const thumbStat = existsSync(thumb) ? await stat(thumb) : null;
+  if (!thumbStat || thumbStat.mtimeMs < srcStat.mtimeMs) {
+    await sharp(file)
+      .rotate()
+      .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+      .jpeg({ quality: THUMB_QUALITY, mozjpeg: true })
+      .toFile(thumb);
+  }
+  const { width, height } = await orientedSize(file);
+  photos.push({
+    src: `${PUBLIC_BASE}/${name}`,
+    thumb: `${PUBLIC_BASE}/thumbs/${name}`,
+    width,
+    height,
+  });
+}
+
+const manifest =
+  `// AUTO-GENERATED by scripts/optimize-images.mjs. Do not edit by hand.\n` +
+  `// Add or remove photos in public/images/optimized/ and run \`yarn optimize:images\`.\n\n` +
+  `export interface GalleryImage {\n  src: string;\n  thumb: string;\n  width: number;\n  height: number;\n}\n\n` +
+  `export const GALLERY_IMAGES: GalleryImage[] = ${JSON.stringify(photos, null, 2)};\n`;
+
+await mkdir(root("src/data/"), { recursive: true });
+const current = existsSync(MANIFEST) ? await readFile(MANIFEST, "utf8") : "";
+if (current !== manifest) {
+  await writeFile(MANIFEST, manifest);
+  console.log(`  gallery manifest updated: ${photos.length} photo(s)`);
+} else {
+  console.log(`  gallery up to date: ${photos.length} photo(s)`);
+}

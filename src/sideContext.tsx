@@ -7,9 +7,9 @@ import type { Side } from "./sideConfig";
  *  index.html, so this works without a router. */
 // eslint-disable-next-line react-refresh/only-export-components
 export function detectSide(): Side {
-  if (typeof window === "undefined") return "groom";
+  if (typeof window === "undefined") return "bride";
   const segment = window.location.pathname.split("/").filter(Boolean)[0];
-  return segment === "groom" || segment === "bride" ? segment : "groom";
+  return segment === "groom" || segment === "bride" ? segment : "bride";
 }
 
 const SideContext = createContext<Side>("groom");

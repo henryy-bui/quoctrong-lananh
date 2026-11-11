@@ -19,7 +19,7 @@ export default function Footer() {
         <p className="footer-names">
           {sideData.groomBrideNames[0]} &amp; {sideData.groomBrideNames[1]}
         </p>
-        <p className="footer-date">31 · 05 · 2026</p>
+        <p className="footer-date">17 · 11 · 2026</p>
         <p className="footer-credit">
           Copyright © 2026 by {sideData.groomBrideNames[0]} &amp;{" "}
           {sideData.groomBrideNames[1]}.

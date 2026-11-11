@@ -4,7 +4,7 @@ import "./WeddingCalendar.css";
 
 const WEEKDAYS = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 const YEAR = 2026;
-const MONTH = 4; // 0-indexed: May
+const MONTH = 10; // 0-indexed: November
 
 function buildGrid(year: number, month: number) {
   const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
@@ -36,7 +36,7 @@ export default function WeddingCalendar() {
   return (
     <div className="wedding-calendar reveal">
       <div className="wc-header">
-        <span className="wc-month">Tháng Năm</span>
+        <span className="wc-month">Tháng Mười Một</span>
         <span className="wc-dot" aria-hidden="true">
           •
         </span>
@@ -69,8 +69,8 @@ export default function WeddingCalendar() {
               role="gridcell"
               aria-label={
                 isWedding
-                  ? `Ngày cưới, ${d} tháng 5 năm ${YEAR}`
-                  : `${d} tháng 5`
+                  ? `Ngày cưới, ${d} tháng 11 năm ${YEAR}`
+                  : `${d} tháng 11`
               }
             >
               {isWedding && (

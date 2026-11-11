@@ -24,3 +24,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Camera originals (moved here by scripts/optimize-images.mjs, never shipped)
+photos/

@@ -50,7 +50,7 @@ export default function LoadingScreen({ onDone }: Props) {
             {sideData.groomBrideNames[1]}
           </span>
         </div>
-        <p className="loading-date">31 · 05 · 2026</p>
+        <p className="loading-date">17 · 11 · 2026</p>
         <div className="loading-bar-track">
           <div className="loading-bar-fill" />
         </div>

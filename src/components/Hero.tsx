@@ -4,7 +4,7 @@ import { useSide } from "../sideContext";
 import { SIDE_CONFIG } from "../sideConfig";
 import "./Hero.css";
 
-const WEDDING_DATE = new Date(2026, 4, 31, 10, 0, 0);
+const WEDDING_DATE = new Date(2026, 10, 17, 10, 0, 0);
 
 interface TimeLeft {
   days: number;
@@ -60,7 +60,7 @@ export default function Hero() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
     if (reduceMotion) return;
 
@@ -118,7 +118,7 @@ export default function Hero() {
 
         <div className="hero-date-row">
           <span className="hero-rule" />
-          <p className="hero-date">31 tháng 05 năm 2026</p>
+          <p className="hero-date">17 tháng 11 năm 2026</p>
           <span className="hero-rule" />
         </div>
 

@@ -26,17 +26,64 @@
   color: inherit;
   appearance: none;
   -webkit-appearance: none;
-  /* Real photos drop in via background: url(...) — these defaults make sure
-     they fill the tile without distortion. Gradients ignore these. */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* Soft shimmering placeholder shown until the photo has loaded */
+  background: linear-gradient(
+    110deg,
+    var(--cream) 30%,
+    rgba(var(--gold-rgb), 0.12) 50%,
+    var(--cream) 70%
+  );
+  background-size: 250% 100%;
+  animation: gallery-shimmer 1.8s ease-in-out infinite;
   /* Keep the tile in a single column; columns layout will otherwise split
      a tall portrait across a column boundary. */
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes gallery-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+.gallery-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: scale(1.08);
+  filter: blur(6px);
+  transition: opacity 0.9s ease, filter 0.9s ease,
+    transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-img.is-loaded {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+}
+
+/* Slow Ken Burns drift on hover, layered on the tile's own lift */
+@media (hover: hover) {
+  .gallery-item:hover .gallery-img.is-loaded {
+    transform: scale(1.06);
+    transition: transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item { animation: none; }
+  .gallery-img,
+  .gallery-img.is-loaded {
+    transform: none;
+    filter: none;
+    transition: opacity 0.4s ease;
+  }
 }
 
 .gallery-item:focus-visible {

@@ -30,8 +30,8 @@ const PEOPLE: Person[] = [
     numeral: "I",
     role: "Chú Rể",
     roleEn: "Groom",
-    name: "Văn Hà",
-    monogram: "V",
+    name: "Quốc Trọng",
+    monogram: "Q",
     photoBg:
       "linear-gradient(155deg, var(--gold) 0%, var(--gold-light) 55%, var(--cream-dark) 100%)",
     photoUrl: "/images/groom.jpg",
@@ -39,16 +39,16 @@ const PEOPLE: Person[] = [
     bio: "Là một lập trình viên, anh không chỉ viết code để xây dựng tương lai mà còn 'debug' mọi khó khăn để xây dựng một tình yêu vững bền.",
     facts: [],
     parents: {
-      father: "Ông Bùi Văn Sơn",
-      mother: "Bà Nguyễn Thị Là",
+      father: "Ông Đặng Văn Hinh",
+      mother: "Bà Nguyễn Thị Thắng",
     },
   },
   {
     numeral: "II",
     role: "Cô Dâu",
     roleEn: "Bride",
-    name: "Thanh Hiền",
-    monogram: "T",
+    name: "Lan Anh",
+    monogram: "L",
     photoBg:
       "linear-gradient(155deg, var(--rose) 0%, var(--rose-light) 55%, var(--cream) 100%)",
     photoUrl: "/images/bride.jpg",
@@ -57,7 +57,7 @@ const PEOPLE: Person[] = [
     facts: [],
     parents: {
       father: "",
-      mother: "Bà Tống Thị Nếp",
+      mother: "Bà Phạm Thị Hương",
     },
   },
 ];
@@ -99,15 +99,16 @@ export default function Introduction() {
                       {p.numeral}
                     </span>
                     <div className="intro-photo">
+                      {/* <img src={p.photoUrl} alt={p.name} /> */}
                       <img
                         src={p.photoUrl}
                         alt={p.name}
                         style={{
-                          scale: p.roleEn === "Bride" ? 2 : 1,
+                          scale: p.roleEn === "Bride" ? 1.2 : 1.5,
                           transform:
                             p.roleEn === "Bride"
-                              ? "translateY(10%) translateX(-5%)"
-                              : "none",
+                              ? "translateY(5%)"
+                              : "translateY(10%)",
                         }}
                       />
                     </div>

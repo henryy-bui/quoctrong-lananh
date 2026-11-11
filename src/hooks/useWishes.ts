@@ -40,7 +40,7 @@ const MOCK_WISHES: Wish[] = [
   {
     name: "Nguyễn Minh Anh",
     side: "bride",
-    note: "Chúc Hà & Hiền trăm năm hạnh phúc, đầu bạc răng long! Mình rất mong chờ ngày đặc biệt này.",
+    note: "Chúc Trọng & Lan Anh trăm năm hạnh phúc, đầu bạc răng long! Mình rất mong chờ ngày đặc biệt này.",
     timestamp: "2026-05-09T08:30:00.000Z",
   },
   {
@@ -64,7 +64,7 @@ const MOCK_WISHES: Wish[] = [
   {
     name: "Vũ Thanh Mai",
     side: "bride",
-    note: "Sẽ có mặt ngày 30/05! Chuẩn bị áo dài rồi đây 🥰",
+    note: "Sẽ có mặt ngày 17/11! Chuẩn bị áo dài rồi đây 🥰",
     timestamp: "2026-05-07T11:20:00.000Z",
   },
 ];

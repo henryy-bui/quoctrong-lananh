@@ -5,6 +5,8 @@ import "./Lightbox.css";
 export interface LightboxPhoto {
   bg: string;
   label: string;
+  /** Smaller preview used by the gallery grid; falls back to `bg`. */
+  thumb?: string;
   /** CSS aspect-ratio string, e.g. "3 / 4" (portrait), "3 / 2" (landscape). */
   aspectRatio?: string;
 }

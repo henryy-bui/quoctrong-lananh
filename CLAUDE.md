@@ -21,7 +21,7 @@ yarn preview    # Preview the production build locally
 
 ## Architecture
 
-Online wedding invitation for Văn Hà & Thanh Hiền (31/05/2026). Single-page app: `index.html` → `src/main.tsx` → `src/App.tsx`.
+Online wedding invitation for Quốc Trọng & Lan Anh (17/11/2026). Single-page app: `index.html` → `src/main.tsx` → `src/App.tsx`.
 
 ### App composition + load gate
 
@@ -82,4 +82,4 @@ Chrome/overlay components (rendered outside the section flow):
 Names appear in **five files** — search-and-replace all of them:
 `Hero.tsx` (display + countdown anchor), `Introduction.tsx` (`PEOPLE` array incl. parent placeholders), `LoadingScreen.tsx` (splash), `Footer.tsx` (monogram + closing), and this file.
 
-Date anchor: `new Date(2026, 4, 31, 10, 0, 0)` in `Hero.tsx` (note: month is 0-indexed → `4` = May).
+Date anchor: `new Date(2026, 10, 17, 10, 0, 0)` in `Hero.tsx` (note: month is 0-indexed → `10` = November).
