@@ -1,15 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { bgm } from "../audio";
 import "./AudioPlayer.css";
 
 export default function AudioPlayer() {
-  const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.volume = 0.15;
+    const audio = bgm;
 
     const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
 
@@ -41,8 +38,7 @@ export default function AudioPlayer() {
   }, []);
 
   function toggle() {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = bgm;
     if (playing) {
       audio.pause();
       setPlaying(false);
@@ -54,8 +50,6 @@ export default function AudioPlayer() {
 
   return (
     <>
-      <audio ref={audioRef} src="/music.mp3" loop preload="auto" />
-
       <button
         className={`audio-btn ${playing ? "playing" : "paused"}`}
         onClick={toggle}
