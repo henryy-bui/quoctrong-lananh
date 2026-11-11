@@ -10,63 +10,63 @@ export interface GalleryImage {
 
 export const GALLERY_IMAGES: GalleryImage[] = [
   {
-    "src": "/images/optimized/kl_00222.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00222.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_01019.jpg",
+    thumb: "/images/optimized/thumbs/kl_01019.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_00239.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00239.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_00239.jpg",
+    thumb: "/images/optimized/thumbs/kl_00239.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_00264.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00264.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_00264.jpg",
+    thumb: "/images/optimized/thumbs/kl_00264.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_00344.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00344.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_00344.jpg",
+    thumb: "/images/optimized/thumbs/kl_00344.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_00411.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00411.jpg",
-    "width": 1800,
-    "height": 1200
+    src: "/images/optimized/kl_00411.jpg",
+    thumb: "/images/optimized/thumbs/kl_00411.jpg",
+    width: 1800,
+    height: 1200,
   },
   {
-    "src": "/images/optimized/kl_00808.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00808.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_00808.jpg",
+    thumb: "/images/optimized/thumbs/kl_00808.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_00993.jpg",
-    "thumb": "/images/optimized/thumbs/kl_00993.jpg",
-    "width": 1800,
-    "height": 1200
+    src: "/images/optimized/kl_00993.jpg",
+    thumb: "/images/optimized/thumbs/kl_00993.jpg",
+    width: 1800,
+    height: 1200,
   },
   {
-    "src": "/images/optimized/kl_01019.jpg",
-    "thumb": "/images/optimized/thumbs/kl_01019.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_00222.jpg",
+    thumb: "/images/optimized/thumbs/kl_00222.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_09787.jpg",
-    "thumb": "/images/optimized/thumbs/kl_09787.jpg",
-    "width": 1200,
-    "height": 1800
+    src: "/images/optimized/kl_09787.jpg",
+    thumb: "/images/optimized/thumbs/kl_09787.jpg",
+    width: 1200,
+    height: 1800,
   },
   {
-    "src": "/images/optimized/kl_09935.jpg",
-    "thumb": "/images/optimized/thumbs/kl_09935.jpg",
-    "width": 1200,
-    "height": 1800
-  }
+    src: "/images/optimized/kl_09935.jpg",
+    thumb: "/images/optimized/thumbs/kl_09935.jpg",
+    width: 1200,
+    height: 1800,
+  },
 ];

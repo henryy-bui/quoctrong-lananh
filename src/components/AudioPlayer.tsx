@@ -31,7 +31,7 @@ export default function AudioPlayer() {
 
     tryPlay();
     events.forEach((e) =>
-      window.addEventListener(e, tryPlay, { passive: true })
+      window.addEventListener(e, tryPlay, { passive: true }),
     );
 
     return () => {
